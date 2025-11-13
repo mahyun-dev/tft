@@ -1,7 +1,7 @@
-// Import SkillFactory if in Node.js environment
-let SkillFactory;
+// Import SkillFactory if in Node.js environment only
 if (typeof module !== 'undefined' && module.exports) {
-    SkillFactory = require('./Skill.js').SkillFactory;
+    const skillModule = require('./Skill.js');
+    SkillFactory = skillModule.SkillFactory;
 }
 
 /**
