@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TFT - Champion Skills</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>TFT - Champion Skills Demo</h1>
+        
+        <div class="battlefield">
+            <div class="team team-1" id="team1">
+                <h2>Team 1</h2>
+                <div class="champions" id="team1-champions"></div>
+            </div>
+            
+            <div class="team team-2" id="team2">
+                <h2>Team 2</h2>
+                <div class="champions" id="team2-champions"></div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button id="start-battle" class="btn btn-primary">Start Battle</button>
+            <button id="reset-battle" class="btn btn-secondary">Reset</button>
+        </div>
+        
+        <div class="battle-log">
+            <h3>Battle Log</h3>
+            <div id="log-content"></div>
+        </div>
+    </div>
+    
+    <script src="src/Skill.js"></script>
+    <script src="src/Champion.js"></script>
+    <script src="src/Battle.js"></script>
+    <script src="src/VisualFeedback.js"></script>
+    <script src="src/game.js"></script>
+</body>
+</html>
