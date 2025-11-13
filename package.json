@@ -1,0 +1,13 @@
+{
+  "name": "tft-game",
+  "version": "1.0.0",
+  "description": "Teamfight Tactics-style game with champion skill functionality",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": ["tft", "game", "champions", "skills"],
+  "author": "",
+  "license": "MIT"
+}
