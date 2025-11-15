@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TFT 3D 리뉴얼</title>
+  <meta name="description" content="11사단 기갑수색대대 롤토체스 3D 게임">
+  <meta name="theme-color" content="#222">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="tft-style.css">
+  <style>
+    html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; }
+    #tft-3d-canvas { width: 100vw; height: 100vh; display: block; background: #222; }
+    #tft-loader-fallback { position:fixed;top:0;left:0;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;background:rgba(20,30,40,0.9);z-index:9999;color:#fff;font-size:1.5em; }
+    /* 롤토체스 스타일 커스텀은 tft-style.css에서 관리 */
+  </style>
+</head>
+<body>
+  <div id="tft-ui-root" aria-label="게임 UI 영역"></div>
+  <canvas id="tft-3d-canvas" aria-label="3D 게임 보드" tabindex="0"></canvas>
+  <noscript><div id="tft-loader-fallback">자바스크립트가 필요합니다.</div></noscript>
+  <div id="tft-loader-fallback" style="display:none;">로딩 중...</div>
+  <script type="module">
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.module.js';
+    import TWEEN from 'https://cdn.jsdelivr.net/npm/@tweenjs/tween.js@18.6.4/dist/tween.esm.js';
+    import { init3D } from './tft-main.js';
+    import { showLoader, hideLoader } from './tft-loader.js';
+    window.THREE = THREE;
+    window.TWEEN = TWEEN;
+    showLoader('게임 리소스 로딩 중...');
+    // 실제 리소스 프리로드와 연동 가능
+    setTimeout(() => {
+      hideLoader();
+      init3D();
+    }, 800);
+    // 서비스워커 등록 (PWA)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js');
+      });
+    }
+  </script>
+</body>
+</html>
