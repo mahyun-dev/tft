@@ -66,65 +66,7 @@ function updateMeshes() {
   }
 }
 
-import { getChampionById } from './tft-champions.js';
-function battleTick() {
-  for (const u of battleUnits) {
-    if (u.hp <= 0) continue;
-    // 상태이상: 스턴
-    if (u.stunned && u.stunned > 0) {
-      u.stunned--;
-      continue;
-    }
-    // 마나 시스템: 공격 시 마나 획득
-    if (u.mana === undefined) u.mana = u.stats && u.stats.mana !== undefined ? u.stats.mana : 0;
-    if (u.maxMana === undefined) u.maxMana = u.stats && u.stats.maxMana !== undefined ? u.stats.maxMana : 50;
-    // 스킬 발동
-    if (u.mana >= u.maxMana && u.skill && typeof u.skill.effect === 'function') {
-      // allies/enemies 분리
-      const allies = battleUnits.filter(x => x.isEnemy === u.isEnemy && x.hp > 0);
-      const enemies = battleUnits.filter(x => x.isEnemy !== u.isEnemy && x.hp > 0);
-      let target = findNearestEnemy(u);
-      try {
-        u.skill.effect(u, target, allies, enemies);
-      } catch (e) { console.error('Skill error', u, e); }
-      u.mana = 0;
-      // 스킬 연출(색상)
-      const mesh = battleMeshes[u.id];
-      if (mesh) {
-        mesh.material.color.set(0xf7e45c);
-        setTimeout(() => mesh.material.color.set(u.isEnemy ? 0xff4444 : 0x44aaff), 400);
-      }
-      continue;
-    }
-    // 일반 공격/이동
-    const enemy = findNearestEnemy(u);
-    if (!enemy) continue;
-    const dist = distance2D(u, enemy);
-    if (dist > 1.2) {
-      moveUnitToward(u, enemy);
-    } else {
-      attackUnit(u, enemy);
-      enemy._hitTick = 2;
-      // 마나 획득
-      u.mana = Math.min(u.mana + 15, u.maxMana);
-    }
-  }
-  updateMeshes();
-  // 전투 종료 체크
-  const teamA = battleUnits.some(u => !u.isEnemy && u.hp > 0);
-  const teamB = battleUnits.some(u => u.isEnemy && u.hp > 0);
-  if (!teamA || !teamB) {
-    clearInterval(battleInterval);
-    battleInterval = null;
-    // 전투 종료 콜백(향후 onBattleEnd 등 확장 가능)
-    if (typeof window.onBattleEnd === 'function') {
-      window.onBattleEnd({
-        win: teamA,
-        enemyAlive: battleUnits.filter(u => u.isEnemy && u.hp > 0).length
-      });
-    }
-  }
-}
+// (중복 선언 제거됨)
 // tft-battle.js: 3D 전투 로직 및 유닛 소환/애니메이션 (production-ready)
 // Three.js의 scene을 외부에서 주입받아야 함
 let sceneRef = null;
